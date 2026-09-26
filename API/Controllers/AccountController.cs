@@ -4,15 +4,17 @@ using System.Text;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 
-public class AccountController(AppDbContext context) : BaseApiController
+public class AccountController(AppDbContext context, ITokenService tokenService) : BaseApiController
 {
     [HttpPost("register")]
-    public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto)
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if(await EmailExists(registerDto.Email)) return BadRequest("Email is already taken!");
         
@@ -30,7 +32,26 @@ public class AccountController(AppDbContext context) : BaseApiController
         context.Users.Add(user);
         await context.SaveChangesAsync();
 
-        return user;
+        return user.ToDto(tokenService);
+    }
+
+    [HttpPost("login")]
+    public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+    {
+        var user = await context.Users.FirstOrDefaultAsync(user => user.Email == loginDto.Email);
+        
+        if(user == null) return Unauthorized("Invalid email");
+
+        using var hmac = new HMACSHA512(user.PasswordSalt);
+        var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(loginDto.Password));
+        //var PasswordSalt = hmac.Key;
+
+        for(int i = 0 ; i < passwordHash.Length; i++)
+        {
+            if(passwordHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid password");
+        }
+
+        return user.ToDto(tokenService);
     }
 
     private async Task<bool> EmailExists(string email)
