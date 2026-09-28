@@ -18,6 +18,8 @@
   <ItemGroup>
     <Folder Include="Data\" />
     <Folder Include="DTOs\" />
+    <Folder Include="Errors/" />
+    <Folder Include="Middleware/" />
     <Folder Include="Extensions/" />
     <Folder Include="Interfaces/" />
     <Folder Include="Services/" />
