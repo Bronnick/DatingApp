@@ -13,6 +13,6 @@ import { NgClass } from '@angular/common';
 export class App  {
   protected router = inject(Router)
   
-
+  
 
 }
