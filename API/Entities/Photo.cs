@@ -9,7 +9,7 @@ public class Photo
 
     public required string Url { get; set; }
 
-    public string? publicId {get;set;}
+    public string? PublicId {get;set;}
 
 
     [JsonIgnore]
