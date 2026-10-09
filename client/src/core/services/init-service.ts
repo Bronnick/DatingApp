@@ -1,6 +1,7 @@
 import { inject, Injectable, Service } from '@angular/core';
 import { AccountService } from './account-service';
 import { of } from 'rxjs';
+import { LikesService } from './likes-service';
 
 @Injectable({
     providedIn: 'root'
@@ -8,6 +9,7 @@ import { of } from 'rxjs';
 export class InitService {
 
     private accountService = inject(AccountService)
+    private likesService = inject(LikesService)
 
     constructor() {
 
@@ -19,6 +21,7 @@ export class InitService {
 
         const user = JSON.parse(userString)
         this.accountService.currentUser.set(user)
+        this.likesService.getLikeIds()
 
         return of(null)
     }
