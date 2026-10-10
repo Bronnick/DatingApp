@@ -1,5 +1,6 @@
 using System;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,31 +40,39 @@ public class LikesRepository(AppDbContext context) : ILikesRepository
         return await context.Likes.FindAsync(SourceMemberId, TargetMemberId);
     }
 
-    public async Task<IReadOnlyList<Member>> GetMemberLikes(string predicate, string memberId)
+    public async Task<PaginatedResult<Member>> GetMemberLikes(LikesParams likesParams, string memberId)
     {
         var query = context.Likes.AsQueryable();
+        IQueryable<Member> result;
 
-        switch(predicate)
+        switch(likesParams.predicate)
         {
             case "liked":
-                return await query
+                result = query
                     .Where(like => like.SourceMemberId == memberId)
-                    .Select(like => like.TargetMember)
-                    .ToListAsync();
+                    .Select(like => like.TargetMember);
+                break;
                 
             case "likedBy":
-                return await query
+                result = query
                     .Where(like => like.TargetMemberId == memberId)
-                    .Select(like => like.SourceMember)
-                    .ToListAsync();
+                    .Select(like => like.SourceMember);
+                break;
+
             default:
                 var likeIds = await GetCurrentMemberLikeIds(memberId);
-                return await query
+                result = query
                     .Where(like => like.TargetMemberId == memberId && likeIds.Contains(like.SourceMemberId))
-                    .Select(like => like.SourceMember)
-                    .ToListAsync();
+                    .Select(like => like.SourceMember);
+                break;
                 
         }
+
+        // result = result
+        //     .Skip((likesParams.pageNumber - 1) * likesParams.PageSize)
+        //     .Take(likesParams.PageSize);
+
+        return await PaginationHelper.CreateAsync(result, likesParams.pageNumber, likesParams.PageSize);
     }
 
     public async Task<bool> SaveAllChanges()

@@ -26,3 +26,9 @@ export class MemberParams {
   pageSize = 10
   orderBy = 'lastActive'
 }
+
+export class LikeParams {
+  predicate?: string = 'mutual'
+  pageNumber = 1
+  pageSize = 10
+}

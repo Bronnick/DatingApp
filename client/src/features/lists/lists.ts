@@ -1,18 +1,21 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { LikesService } from '../../core/services/likes-service';
-import { Member } from '../../types/member';
+import { LikeParams, Member, MemberParams } from '../../types/member';
 import { MemberCard } from '../members/member-card/member-card';
+import { PaginatedResult } from '../../types/pagination';
+import { Paginator } from '../../shared/paginator/paginator';
 
 @Component({
-  imports: [MemberCard],
+  imports: [MemberCard, Paginator],
   selector: 'app-lists',
   styleUrl: './lists.css',
   templateUrl: './lists.html',
 })
 export class Lists implements OnInit {
   private likesService = inject(LikesService)
-  protected members = signal<Member[]>([])
-  protected predicate = 'liked'
+  protected members = signal<PaginatedResult<Member> | null>(null)
+  protected likeParams = new LikeParams()
+
 
   tabs = [
     {label: 'Liked', value: 'liked'},
@@ -25,16 +28,22 @@ export class Lists implements OnInit {
   }
 
   setPredicate(predicate: string) {
-    if(this.predicate !== predicate) {
-      this.predicate = predicate
+    if(this.likeParams.predicate !== predicate) {
+      this.likeParams.predicate = predicate
       this.loadLikes()
     }
   }
 
   loadLikes() {
-    this.likesService.getLikes(this.predicate).subscribe({
+    this.likesService.getLikes(this.likeParams).subscribe({
       next: members => this.members.set(members)
     })
+  }
+
+  onPageChange(event: {pageNumber: number, pageSize: number}) {
+    this.likeParams.pageSize = event.pageSize
+    this.likeParams.pageNumber = event.pageNumber
+    this.loadLikes()
   }
 
   
