@@ -20,7 +20,6 @@
     <Folder Include="Data\" />
     <Folder Include="DTOs\" />
     <Folder Include="Errors/" />
-    <Folder Include="Helpers/" />
     <Folder Include="Middleware/" />
     <Folder Include="Extensions/" />
     <Folder Include="Interfaces/" />
