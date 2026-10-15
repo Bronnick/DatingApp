@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { AgePipe } from '../../../core/pipes/age-pipe';
 import { LikesService } from '../../../core/services/likes-service';
 import { Lists } from '../../lists/lists';
+import { PresenceService } from '../../../core/services/presence-service';
 
 @Component({
   imports: [RouterLink, AgePipe],
@@ -13,9 +14,13 @@ import { Lists } from '../../lists/lists';
 })
 export class MemberCard {
   private likesService = inject(LikesService)
+  private presenceService = inject(PresenceService)
   member = input.required<Member>()
   protected hasLiked = computed(() => {
     return this.likesService.likeIds().includes(this.member().id)
+  })
+  protected isOnline = computed(() => {
+    return this.presenceService.onlineUsers().includes(this.member().id)
   })
 
   toggleLike(event: Event) {
