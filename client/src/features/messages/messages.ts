@@ -5,6 +5,7 @@ import { Message } from '../../types/message';
 import { Paginator } from '../../shared/paginator/paginator';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { ConfirmDialogService } from '../../core/services/confirm-dialog-service';
 
 @Component({
   imports: [Paginator, RouterLink, DatePipe],
@@ -14,6 +15,7 @@ import { DatePipe } from '@angular/common';
 })
 export class Messages implements OnInit {
   private messageService = inject(MessageService)
+  private confirmDialogService = inject(ConfirmDialogService)
   protected container = 'Inbox'
   protected fetchedContainer = 'Inbox'
   protected pageNumber = 1
@@ -38,8 +40,7 @@ export class Messages implements OnInit {
     })
   }
 
-  deleteMessage(event: Event, id: string) {
-    event.stopPropagation()
+  deleteMessage(id: string) {
     this.messageService.deleteMessage(id).subscribe({
       next: () => {
         const current = this.paginatedMessages()
@@ -56,6 +57,12 @@ export class Messages implements OnInit {
         }
       }
     })
+  }
+
+  async confirmDelete(event: Event, id: string) {
+    event.stopPropagation()
+    const ok = await this.confirmDialogService.confirm('Are you sure you want to delete this message?')
+    if(ok) this.deleteMessage(id)
   }
 
   get isInbox() {
