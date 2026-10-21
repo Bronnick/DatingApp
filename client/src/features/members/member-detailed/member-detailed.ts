@@ -17,7 +17,7 @@ import { LikesService } from '../../../core/services/likes-service';
 })
 export class MemberDetailed implements OnInit{
   protected memberService = inject(MemberService)
-  private accountService = inject(AccountService)
+  protected accountService = inject(AccountService)
   protected presenceService = inject(PresenceService)
   protected likesService = inject(LikesService)
   private route = inject(ActivatedRoute)

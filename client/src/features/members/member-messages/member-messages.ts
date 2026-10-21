@@ -20,7 +20,7 @@ export class MemberMessages implements OnInit, OnDestroy {
   private memberService = inject(MemberService)
   protected presenceService = inject(PresenceService)
   private route = inject(ActivatedRoute)
-  protected messageContent = ''
+  protected messageContent = signal<string>('')
 
   constructor() {
     effect(() => {
@@ -49,9 +49,9 @@ export class MemberMessages implements OnInit, OnDestroy {
 
   sendMessage() {
     const recipientId = this.memberService.member()?.id
-    if (!recipientId) return
-    this.messageService.sendMessage(recipientId, this.messageContent)?.then(() => {
-      this.messageContent = ''
+    if (!recipientId || this.messageContent().length == 0) return
+    this.messageService.sendMessage(recipientId, this.messageContent())?.then(() => {
+      this.messageContent.set('')
     })
     
   }
