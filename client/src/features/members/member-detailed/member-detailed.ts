@@ -20,7 +20,7 @@ export class MemberDetailed implements OnInit{
   protected accountService = inject(AccountService)
   protected presenceService = inject(PresenceService)
   protected likesService = inject(LikesService)
-  private route = inject(ActivatedRoute)
+  protected route = inject(ActivatedRoute)
   protected router = inject(Router)
   protected title = signal<string | undefined>('Profile')
   protected routeId = signal<string | null>(null)

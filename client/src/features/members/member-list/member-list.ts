@@ -4,7 +4,7 @@ import { Member, MemberParams } from '../../../types/member';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 import { MemberCard } from '../member-card/member-card';
-import { PaginatedResult } from '../../../types/pagination';
+import { PaginatedResult, Pagination } from '../../../types/pagination';
 import { Paginator } from '../../../shared/paginator/paginator';
 import { FilterModal } from '../filter-modal/filter-modal';
 
@@ -63,7 +63,9 @@ export class MemberList implements OnInit {
   }
 
   resetFilters() {
+    const pageSize = this.memberParams.pageSize
     this.memberParams = new MemberParams()
+    this.memberParams.pageSize = pageSize
     this.updatedParams = new MemberParams()
     this.loadMembers()
   }

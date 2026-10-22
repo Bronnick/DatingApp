@@ -45,7 +45,8 @@
                 @if(isCurrentUser()) {
                     <button (click)="memberService.editMode.set(!memberService.editMode())"
                     class="btn btn-outline btn-primary">
-                    {{memberService.editMode() ? 'Cancel' : "Edit"}}
+                    {{memberService.editMode() ? 'Cancel' : 
+                        ( route.firstChild?.snapshot?.title === 'Profile' ? 'Edit' : 'Add a photo')}}
                     </button>
                 }
             </div>

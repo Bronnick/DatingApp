@@ -2,9 +2,10 @@ import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { Register } from '../account/register/register';
 import { User } from '../../types/user';
 import { AccountService } from '../../core/services/account-service';
+import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [Register],
+  imports: [Register, RouterLink],
   selector: 'app-home',
   styleUrl: './home.css',
   templateUrl: './home.html',

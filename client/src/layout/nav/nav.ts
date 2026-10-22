@@ -6,6 +6,7 @@ import { ToastService } from '../../core/services/toast-service';
 import { themes } from '../theme';
 import { BusyService } from '../../core/services/busy-service';
 import { HasRole } from '../../shared/directives/has-role';
+import { environment } from '../../environments/environment';
 
 @Component({
   imports: [FormsModule, RouterLink, RouterLinkActive, HasRole],
@@ -23,6 +24,7 @@ export class Nav implements OnInit {
   protected selectedTheme = signal<string>(localStorage.getItem('theme') || 'light')
   protected themes = themes 
   protected loading = signal(false)
+  protected isProduction = environment.production
 
   ngOnInit(): void {
     document.documentElement.setAttribute('data-theme', this.selectedTheme())
