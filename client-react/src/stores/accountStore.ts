@@ -18,7 +18,6 @@ interface AccountState {
   setCurrentUser: (user: User) => void
   login: (creds: LoginCreds) => Promise<User>
   logout: () => Promise<void>
-  /** Restores the session from the refresh-token cookie on app start. */
   init: () => Promise<void>
 }
 
@@ -66,9 +65,7 @@ export const useAccountStore = create<AccountState>((set, get) => {
           get().setCurrentUser(data)
           startTokenRefreshInterval()
         }
-      } catch {
-        // No valid refresh token: stay logged out.
-      }
+      } catch {}
     },
   }
 })

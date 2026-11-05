@@ -11,9 +11,7 @@ function loadSavedFilters(): MemberParams {
   try {
     const saved = localStorage.getItem(FILTERS_KEY)
     if (saved) return { ...defaultMemberParams(), ...JSON.parse(saved) }
-  } catch {
-    // Broken or unavailable storage: fall back to defaults.
-  }
+  } catch {}
   return defaultMemberParams()
 }
 
@@ -38,13 +36,10 @@ export default function MemberList() {
   const { data } = useMembers(params)
   const modalRef = useRef<FilterModalHandle>(null)
 
-  // Remember filters between visits (cleared on logout).
   useEffect(() => {
     try {
       localStorage.setItem(FILTERS_KEY, JSON.stringify(params))
-    } catch {
-      // Ignore storage errors.
-    }
+    } catch {}
   }, [params])
 
   const handleFilterSubmit = (filters: MemberParams) => {

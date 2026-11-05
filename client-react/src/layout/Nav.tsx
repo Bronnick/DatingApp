@@ -9,7 +9,6 @@ import { themes } from './themes'
 
 const activeClass = ({ isActive }: { isActive: boolean }) => (isActive ? 'text-accent' : '')
 
-// Closes an open daisyUI dropdown (they stay open while focused).
 const blurActive = () => (document.activeElement as HTMLElement | null)?.blur()
 
 export default function Nav() {

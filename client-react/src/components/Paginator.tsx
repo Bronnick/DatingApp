@@ -24,7 +24,6 @@ export default function Paginator({
       <select
         className="select w-24"
         value={pageSize}
-        // Changing the page size goes back to page 1, so we never land past the end.
         onChange={(e) => onPageChange({ pageNumber: 1, pageSize: Number(e.target.value) })}
       >
         {pageSizeOptions.map((size) => (

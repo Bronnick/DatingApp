@@ -12,7 +12,6 @@ export function useMembers(params: MemberParams) {
   return useQuery({
     queryKey: ['members', params],
     queryFn: () => getMembers(params),
-    // Keep showing the current page while the next one loads.
     placeholderData: keepPreviousData,
   })
 }

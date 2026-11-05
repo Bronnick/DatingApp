@@ -24,7 +24,6 @@ export const useLikesStore = create<LikesState>((set) => ({
         ? s.likeIds.filter((id) => id !== targetMemberId)
         : [...s.likeIds, targetMemberId],
     }))
-    // Liked / LikedBy / Mutual lists are now out of date.
     queryClient.invalidateQueries({ queryKey: ['likes'] })
   },
 

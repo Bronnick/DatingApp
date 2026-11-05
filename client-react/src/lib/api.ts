@@ -3,7 +3,6 @@ import { environment } from '@/environments/environment'
 import { useAccountStore } from '@/stores/accountStore'
 import { useBusyStore } from '@/stores/busyStore'
 
-// Shared axios instance. Mirrors the Angular jwt + loading interceptors.
 export const api = axios.create({
   baseURL: environment.apiUrl,
   withCredentials: true,

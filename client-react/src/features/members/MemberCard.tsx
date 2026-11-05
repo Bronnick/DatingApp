@@ -9,7 +9,6 @@ export default function MemberCard({ member }: { member: Member }) {
   const toggleLike = useLikesStore((s) => s.toggleLike)
 
   const handleLike = (e: MouseEvent) => {
-    // The whole card is a link; don't navigate when clicking the heart.
     e.preventDefault()
     e.stopPropagation()
     toggleLike(member.id)

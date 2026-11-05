@@ -4,8 +4,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { defineConfig } from 'vite'
 
-// Reuses the Angular client's localhost certs and port so the API's CORS policy
-// (https://localhost:4200) works unchanged. Stop `ng serve` before running this.
 const sslDir = path.resolve(import.meta.dirname, '../client/ssl')
 
 export default defineConfig({

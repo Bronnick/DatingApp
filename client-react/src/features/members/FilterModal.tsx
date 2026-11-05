@@ -13,7 +13,6 @@ interface FilterModalProps {
 
 export default function FilterModal({ ref, params, onSubmit }: FilterModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
-  // Edits stay local until Submit, so closing the modal discards them.
   const [draft, setDraft] = useState(params)
 
   useImperativeHandle(ref, () => ({
