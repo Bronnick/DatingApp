@@ -9,6 +9,8 @@ import RequireAuth from '@/components/RequireAuth'
 import MemberList from '@/features/members/MemberList'
 import MemberDetailed from '@/features/members/MemberDetailed'
 import MemberTabPlaceholder from '@/features/members/MemberTabPlaceholder'
+import MemberProfile from '@/features/members/MemberProfile'
+import MemberPhotos from '@/features/members/MemberPhotos'
 import Lists from '@/features/lists/Lists'
 import { queryClient } from '@/lib/queryClient'
 import { useAccountStore } from '@/stores/accountStore'
@@ -28,8 +30,8 @@ const router = createBrowserRouter([
             element: <MemberDetailed />,
             children: [
               { index: true, element: <Navigate to="profile" replace /> },
-              { path: 'profile', handle: { title: 'Profile' }, element: <MemberTabPlaceholder name="Profile" /> },
-              { path: 'photos', handle: { title: 'Photos' }, element: <MemberTabPlaceholder name="Photos" /> },
+              { path: 'profile', handle: { title: 'Profile' }, element: <MemberProfile /> },
+              { path: 'photos', handle: { title: 'Photos' }, element: <MemberPhotos /> },
               { path: 'messages', handle: { title: 'Messages' }, element: <MemberTabPlaceholder name="Messages" /> },
             ],
           },

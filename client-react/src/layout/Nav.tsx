@@ -1,8 +1,8 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router'
 import toast from 'react-hot-toast'
-import { isAxiosError } from 'axios'
 import { environment } from '@/environments/environment'
+import { getErrorMessage } from '@/lib/errors'
 import { useAccountStore } from '@/stores/accountStore'
 import { useBusyStore } from '@/stores/busyStore'
 import { themes } from './themes'
@@ -41,10 +41,7 @@ export default function Nav() {
       toast.success('Logged in successfully')
       setCreds({ email: '', password: '' })
     } catch (error) {
-      const message = isAxiosError(error) && typeof error.response?.data === 'string'
-        ? error.response.data
-        : 'Login failed'
-      toast.error(message, { duration: 2000 })
+      toast.error(getErrorMessage(error, 'Login failed'), { duration: 2000 })
     } finally {
       setLoading(false)
     }

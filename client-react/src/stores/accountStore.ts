@@ -16,6 +16,7 @@ function getRolesFromToken(token: string): string[] {
 interface AccountState {
   currentUser: User | null
   setCurrentUser: (user: User) => void
+  updateCurrentUser: (changes: Partial<Pick<User, 'displayName' | 'imageUrl'>>) => void
   login: (creds: LoginCreds) => Promise<User>
   logout: () => Promise<void>
   init: () => Promise<void>
@@ -40,6 +41,10 @@ export const useAccountStore = create<AccountState>((set, get) => {
     setCurrentUser: (user) => {
       set({ currentUser: { ...user, roles: getRolesFromToken(user.token) } })
       useLikesStore.getState().loadLikeIds().catch(() => {})
+    },
+
+    updateCurrentUser: (changes) => {
+      set((s) => ({ currentUser: s.currentUser && { ...s.currentUser, ...changes } }))
     },
 
     login: async (creds) => {
