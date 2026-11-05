@@ -1,12 +1,18 @@
+import { Outlet, useLocation } from 'react-router'
+import { Toaster } from 'react-hot-toast'
+import Nav from '@/layout/Nav'
+
 function App() {
+  const { pathname } = useLocation()
+
   return (
-    <div className="hero min-h-screen">
-      <div className="hero-content flex-col text-center">
-        <h1 className="text-5xl font-bold text-primary">Dating App</h1>
-        <p>React client is set up.</p>
-        <button className="btn btn-primary">daisyUI works</button>
+    <>
+      <Nav />
+      <div className={pathname === '/' ? '' : 'mt-24 container mx-auto'}>
+        <Outlet />
       </div>
-    </div>
+      <Toaster position="bottom-right" />
+    </>
   )
 }
 
