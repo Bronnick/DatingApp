@@ -1,5 +1,7 @@
 import { create } from 'zustand'
 import { api } from '@/lib/api'
+import { queryClient } from '@/lib/queryClient'
+import { useLikesStore } from '@/stores/likesStore'
 import type { LoginCreds, User } from '@/types/user'
 
 const REFRESH_INTERVAL_MS = 14 * 24 * 60 * 60 * 1000
@@ -38,6 +40,7 @@ export const useAccountStore = create<AccountState>((set, get) => {
 
     setCurrentUser: (user) => {
       set({ currentUser: { ...user, roles: getRolesFromToken(user.token) } })
+      useLikesStore.getState().loadLikeIds().catch(() => {})
     },
 
     login: async (creds) => {
@@ -51,6 +54,8 @@ export const useAccountStore = create<AccountState>((set, get) => {
       await api.post('account/logout', {})
       clearInterval(refreshTimer)
       localStorage.removeItem('filters')
+      useLikesStore.getState().clearLikeIds()
+      queryClient.clear()
       set({ currentUser: null })
     },
 
