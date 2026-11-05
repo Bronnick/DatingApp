@@ -3,6 +3,7 @@ import { Link, NavLink, Outlet, useLocation, useMatches, useParams } from 'react
 import { calculateAge } from '@/lib/age'
 import { useAccountStore } from '@/stores/accountStore'
 import { useLikesStore } from '@/stores/likesStore'
+import { useIsOnline } from '@/stores/presenceStore'
 import { useMember } from './memberApi'
 import type { MemberDetailedContext, MemberTabHandle } from './memberDetailedContext'
 
@@ -15,6 +16,7 @@ export default function MemberDetailed() {
   const currentUserId = useAccountStore((s) => s.currentUser?.id)
   const hasLiked = useLikesStore((s) => !!id && s.likeIds.includes(id))
   const toggleLike = useLikesStore((s) => s.toggleLike)
+  const isOnline = useIsOnline(id)
   const [editPath, setEditPath] = useState<string | null>(null)
   const editMode = editPath === pathname
   const setEditMode = (value: boolean) => setEditPath(value ? pathname : null)
@@ -37,6 +39,7 @@ export default function MemberDetailed() {
           <div className="flex flex-col items-center">
             <div className="flex text-2xl text-primary items-center">
               {member.displayName}, {calculateAge(member.dateOfBirth)}
+              {isOnline && <span className="status status-success status-xl ml-3"></span>}
             </div>
             <div className="text-sm">
               {member.city}, {member.country}

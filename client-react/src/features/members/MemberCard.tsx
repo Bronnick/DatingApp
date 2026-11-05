@@ -2,11 +2,13 @@ import type { MouseEvent } from 'react'
 import { Link } from 'react-router'
 import { calculateAge } from '@/lib/age'
 import { useLikesStore } from '@/stores/likesStore'
+import { useIsOnline } from '@/stores/presenceStore'
 import type { Member } from '@/types/member'
 
 export default function MemberCard({ member }: { member: Member }) {
   const hasLiked = useLikesStore((s) => s.likeIds.includes(member.id))
   const toggleLike = useLikesStore((s) => s.toggleLike)
+  const isOnline = useIsOnline(member.id)
 
   const handleLike = (e: MouseEvent) => {
     e.preventDefault()
@@ -20,6 +22,8 @@ export default function MemberCard({ member }: { member: Member }) {
       className="card cursor-pointer transition-all duration-300 ease-in-out transform hover:-translate-y-2 relative"
     >
       <img src={member.imageUrl || '/user.png'} alt={`${member.displayName} image`} className="rounded-lg" />
+
+      {isOnline && <span className="status status-success status-xl absolute top-3 left-3"></span>}
 
       <button onClick={handleLike} className="absolute top-1 right-1 z-40 btn btn-ghost btn-circle">
         <svg xmlns="http://www.w3.org/2000/svg" fill={hasLiked ? 'red' : 'none'} viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-7">

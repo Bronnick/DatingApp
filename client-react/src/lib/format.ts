@@ -2,6 +2,14 @@ export function formatLongDate(value: string): string {
   return new Date(value).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
+export function formatMediumDateTime(value: string): string {
+  return new Date(value).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'medium' })
+}
+
+export function formatShortDateTime(value: string): string {
+  return new Date(value).toLocaleString('en-US', { dateStyle: 'short', timeStyle: 'short' })
+}
+
 const intervals: [string, number][] = [
   ['year', 31536000],
   ['month', 2592000],
