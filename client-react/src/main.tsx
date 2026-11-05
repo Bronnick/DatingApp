@@ -7,6 +7,7 @@ import App from './App.tsx'
 import Placeholder from '@/pages/Placeholder'
 import RequireAuth from '@/components/RequireAuth'
 import MemberList from '@/features/members/MemberList'
+import Lists from '@/features/lists/Lists'
 import { queryClient } from '@/lib/queryClient'
 import { useAccountStore } from '@/stores/accountStore'
 
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
         children: [
           { path: 'members', element: <MemberList /> },
           { path: 'members/:id', element: <Placeholder title="Member" /> },
-          { path: 'lists', element: <Placeholder title="Lists" /> },
+          { path: 'lists', element: <Lists /> },
           { path: 'messages', element: <Placeholder title="Messages" /> },
           { path: 'admin', element: <Placeholder title="Admin" /> },
         ],
