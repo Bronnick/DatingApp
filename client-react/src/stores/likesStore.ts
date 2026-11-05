@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { api } from '@/lib/api'
+import { queryClient } from '@/lib/queryClient'
 
 interface LikesState {
   likeIds: string[]
@@ -23,6 +24,8 @@ export const useLikesStore = create<LikesState>((set) => ({
         ? s.likeIds.filter((id) => id !== targetMemberId)
         : [...s.likeIds, targetMemberId],
     }))
+    // Liked / LikedBy / Mutual lists are now out of date.
+    queryClient.invalidateQueries({ queryKey: ['likes'] })
   },
 
   clearLikeIds: () => set({ likeIds: [] }),
