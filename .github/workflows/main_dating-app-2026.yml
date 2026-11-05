@@ -4,9 +4,10 @@
 name: Build and deploy ASP.Net Core app to Azure Web App - dating-app-2026
 
 on:
-  push:
-    branches:
-      - 'main'
+  # Auto-deploy on push is temporarily disabled; run manually from the Actions tab.
+  # push:
+  #   branches:
+  #     - 'main'
   workflow_dispatch:
 
 jobs:
