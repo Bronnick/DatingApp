@@ -3,7 +3,7 @@ import { api } from '@/lib/api'
 import { queryClient } from '@/lib/queryClient'
 import { useLikesStore } from '@/stores/likesStore'
 import { usePresenceStore } from '@/stores/presenceStore'
-import type { LoginCreds, User } from '@/types/user'
+import type { LoginCreds, RegisterCreds, User } from '@/types/user'
 
 const REFRESH_INTERVAL_MS = 14 * 24 * 60 * 60 * 1000
 
@@ -19,6 +19,7 @@ interface AccountState {
   setCurrentUser: (user: User) => void
   updateCurrentUser: (changes: Partial<Pick<User, 'displayName' | 'imageUrl'>>) => void
   login: (creds: LoginCreds) => Promise<User>
+  register: (creds: RegisterCreds) => Promise<User>
   logout: () => Promise<void>
   init: () => Promise<void>
 }
@@ -51,6 +52,13 @@ export const useAccountStore = create<AccountState>((set, get) => {
 
     login: async (creds) => {
       const { data } = await api.post<User>('account/login', creds)
+      get().setCurrentUser(data)
+      startTokenRefreshInterval()
+      return data
+    },
+
+    register: async (creds) => {
+      const { data } = await api.post<User>('account/register', creds)
       get().setCurrentUser(data)
       startTokenRefreshInterval()
       return data

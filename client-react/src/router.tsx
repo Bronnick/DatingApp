@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router'
 import App from './App'
 import Placeholder from '@/pages/Placeholder'
+import Home from '@/features/home/Home'
 import RequireAuth from '@/components/RequireAuth'
 import MemberList from '@/features/members/MemberList'
 import MemberDetailed from '@/features/members/MemberDetailed'
@@ -15,7 +16,7 @@ export const router = createBrowserRouter([
     path: '/',
     element: <App />,
     children: [
-      { index: true, element: <Placeholder title="Home" /> },
+      { index: true, element: <Home /> },
       {
         element: <RequireAuth />,
         children: [
